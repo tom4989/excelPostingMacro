@@ -19,7 +19,8 @@ Private Const KEY_シート名 = "シート名"
 Private Const KEY_ID列 = "ID列"
 Private Const KEY_名前列 = "名前列"
 Private Const KEY_型列 = "型列"
-Private Const KEY_桁列 = "桁列"
+Private Const KEY_整数桁列 = "整数桁列"
+Private Const KEY_小数桁列 = "小数桁列"
 
 ' *********************************************************************************************************************
 ' 変数
@@ -30,7 +31,8 @@ Private strシート名 As String
 Private lngID列 As Long
 Private lng名前列 As Long
 Private lng型列 As Long
-Private lng桁列 As Long
+Private lng整数桁列 As Long
+Private lng小数桁列 As Long
 
 Private varシート内容 As Variant
 
@@ -41,9 +43,10 @@ Private varシート内容 As Variant
 Private Const C_IDX_ID = 0
 Private Const C_IDX_名前 = 1
 Private Const C_IDX_型 = 2
-Private Const C_IDX_桁 = 3
+Private Const C_IDX_整数桁 = 3
+Private Const C_IDX_小数桁 = 4
 
-Private Const IDX_COUNT = 3
+Private Const IDX_COUNT = 4
 
 Public Property Get IDX_ID() As Long
     IDX_ID = C_IDX_ID
@@ -57,8 +60,12 @@ Public Property Get IDX_型() As Long
     IDX_型 = C_IDX_型
 End Property
 
-Public Property Get IDX_桁() As Long
-    IDX_桁 = C_IDX_桁
+Public Property Get IDX_整数桁() As Long
+    IDX_整数桁 = C_IDX_整数桁
+End Property
+
+Public Property Get IDX_小数桁() As Long
+    IDX_小数桁 = C_IDX_小数桁
 End Property
 
 ' *********************************************************************************************************************
@@ -80,7 +87,8 @@ Public Function 初期化(obj設定値シート As cls設定値シート)
     lngID列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_ID列))
     lng名前列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_名前列))
     lng型列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_型列))
-    lng桁列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_桁列))
+    lng整数桁列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_整数桁列))
+    lng小数桁列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_小数桁列))
     
 End Function
 
@@ -126,7 +134,8 @@ Public Function 転記元情報取得(str名前 As String) As Variant
             var転記元情報(IDX_ID) = varシート内容(i, lngID列)
             var転記元情報(IDX_名前) = varシート内容(i, lng名前列)
             var転記元情報(IDX_型) = varシート内容(i, lng型列)
-            var転記元情報(IDX_桁) = varシート内容(i, lng桁列)
+            var転記元情報(IDX_整数桁) = varシート内容(i, lng整数桁列)
+            var転記元情報(IDX_小数桁) = varシート内容(i, lng小数桁列)
             
             転記元情報取得 = var転記元情報
             Exit Function

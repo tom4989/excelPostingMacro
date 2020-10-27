@@ -22,7 +22,8 @@ Private lngID—ñ As Long
 Private lng–¼‘O—ñFrom As Long
 Private lng–¼‘O—ñTo As Long
 Private lngŒ^—ñ As Long
-Private lngŒ…—ñ As Long
+Private lng®”Œ…—ñ As Long
+Private lng¬”Œ…—ñ As Long
 
 ' *********************************************************************************************************************
 ' ’è”(Public) ¦ ƒNƒ‰ƒX“à‚Å‚Í’è”‚ğPublic‚É‚Å‚«‚È‚¢‚½‚ßAProperty‚ğ—˜—p
@@ -63,7 +64,8 @@ Public Function ‰Šú‰»(objİ’è’lƒV[ƒg As clsİ’è’lƒV[ƒg, wb“]‹LæƒuƒbƒN As Wor
             
             lngID—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("ID—ñ"))
             lngŒ^—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("Œ^—ñ"))
-            lngŒ…—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("Œ…—ñ"))
+            lng®”Œ…—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("®”Œ…—ñ"))
+            lng¬”Œ…—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("¬”Œ…—ñ"))
         
             ‰Šú‰» = True
             Exit Function
@@ -124,7 +126,8 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
                 
                 .Cells(selectionRow.Row, lngID—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID)
                 .Cells(selectionRow.Row, lngŒ^—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_Œ^)
-                .Cells(selectionRow.Row, lngŒ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_Œ…)
+                .Cells(selectionRow.Row, lng®”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_®”Œ…)
+                .Cells(selectionRow.Row, lng¬”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_¬”Œ…)
                 
             Next
         Next
