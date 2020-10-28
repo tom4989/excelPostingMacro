@@ -85,8 +85,9 @@ Public Function ‰Šú‰»(objİ’è’lƒV[ƒg As clsİ’è’lƒV[ƒg, wb“]‹LæƒuƒbƒN As Wor
 '
 Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV[ƒg) As Boolean
         
+    Dim varƒGƒ‰[ƒƒbƒZ[ƒW() As Variant
     Dim selectionRange, selectionRow As Range
-    Dim i As Long
+    Dim i, lngˆ—Ï‚Ìs As Long
     
     With wb“]‹LæƒuƒbƒN.ActiveSheet
     
@@ -94,20 +95,20 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
         .Activate
     
         ' ‘I‘ğ‚³‚ê‚½”ÍˆÍ‚ğ‡”Ô‚Éˆ—‚·‚éB
-        For Each selectionRange In Selection.Areas
+        For Each selectionRange In Selection
     
-            ' ‘I‘ğ‚³‚ê‚½”ÍˆÍ‚ğs‚²‚Æ‚Éˆ—‚·‚é
-            For Each selectionRow In selectionRange
-        
+            ' Selection‚ÍA1ƒZƒ‹‚²‚Æ‚ÉRange‚ğ•Ô‚·‚ªA—ñ‚ğ•¡”‘I‘ğ‚µ‚Ä‚¢‚é‚Æ“¯‚¶s‚ª—ñ”•ª‘ÎÛ‚É‚È‚é‚½‚ß‘Îô‚·‚é
+            If (selectionRange.Row <> lngˆ—Ï‚Ìs) Then
+    
                 ' –¼‘O‚ğ“Á’è‚·‚é
                 Dim str–¼‘O As String
                 str–¼‘O = ""
                 
                 For i = lng–¼‘O—ñFrom To lng–¼‘O—ñTo
                 
-                    If .Cells(selectionRow.Row, i).Value <> "" Then
+                    If .Cells(selectionRange.Row, i).Value <> "" Then
                     
-                        str–¼‘O = .Cells(selectionRow.Row, i).Value
+                        str–¼‘O = .Cells(selectionRange.Row, i).Value
                         Exit For
                     
                     End If
@@ -119,19 +120,47 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
                 
                 If IsArrayEx(var“]‹LŒ³î•ñ) <> 1 Then
                 
-                    Debug.Print (str–¼‘O & " Œ©‚Â‚©‚ç‚È‚¢")
-                    Exit For
+                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, str–¼‘O & "F“]‹LŒ³‚É€–Ú‚ª‘¶İ‚µ‚Ü‚¹‚ñB")
+
+                Else
+                
+                If var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID) = "" Then
+                    
+                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, str–¼‘O & "FID‚ª–¢‹L“ü‚Å‚·B")
                     
                 End If
+            
+                    .Cells(selectionRange.Row, lngID—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID)
+                    .Cells(selectionRange.Row, lngŒ^—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_Œ^)
+                    .Cells(selectionRange.Row, lng®”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_®”Œ…)
+                    .Cells(selectionRange.Row, lng¬”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_¬”Œ…)
                 
-                .Cells(selectionRow.Row, lngID—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID)
-                .Cells(selectionRow.Row, lngŒ^—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_Œ^)
-                .Cells(selectionRow.Row, lng®”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_®”Œ…)
-                .Cells(selectionRow.Row, lng¬”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_¬”Œ…)
-                
-            Next
+                End If
+        
+            End If
+            
+            lngˆ—Ï‚Ìs = selectionRange.Row
+            
         Next
+                
     End With
 
+    ' ƒGƒ‰[ƒƒbƒZ[ƒW‚Ìo—Í
+    If IsArrayEx(varƒGƒ‰[ƒƒbƒZ[ƒW) = 1 Then
+    
+        Dim strƒGƒ‰[ƒƒbƒZ[ƒW As String
+        
+        For i = LBound(varƒGƒ‰[ƒƒbƒZ[ƒW) To UBound(varƒGƒ‰[ƒƒbƒZ[ƒW)
+        
+            If 0 < i Then
+                strƒGƒ‰[ƒƒbƒZ[ƒW = strƒGƒ‰[ƒƒbƒZ[ƒW & vbCrLf
+            End If
+            
+            strƒGƒ‰[ƒƒbƒZ[ƒW = strƒGƒ‰[ƒƒbƒZ[ƒW & varƒGƒ‰[ƒƒbƒZ[ƒW(i)
+        Next
+        
+        Call MsgBox(strƒGƒ‰[ƒƒbƒZ[ƒW, vbExclamation)
+    
+    End If
 
 End Function
