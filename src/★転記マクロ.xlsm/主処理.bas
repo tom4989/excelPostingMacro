@@ -13,7 +13,7 @@ Dim obj設定値シート As cls設定値シート
 '
 Sub Auto_Open()
 
-    Application.OnKey "{F9}", "転記処理"
+    Application.OnKey "%{F3}", "転記処理"
 
 End Sub
 

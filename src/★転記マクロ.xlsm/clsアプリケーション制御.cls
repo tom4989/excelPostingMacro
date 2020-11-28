@@ -12,7 +12,7 @@ Option Explicit
 '   'エラートラップ
 '   On Error GoTo ErrorCatch
 '
-'   objアプリケーション制御 as New clsアプリケーション制御
+'   Dim objアプリケーション制御 as New clsアプリケーション制御
 '   objアプリケーション制御.アプリケーション制御切替(False)
 '
 '   ' 本処理

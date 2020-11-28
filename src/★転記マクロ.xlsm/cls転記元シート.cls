@@ -98,11 +98,11 @@ End Function
 '
 Public Sub シート読込()
 
-    Dim wb転記元 As Workbook
-    Set wb転記元 = Workbooks.Open(strファイルパス, UpdateLinks:=0, IgnoreReadOnlyRecommended:=False)
+    Dim objブック制御 As clsブック制御
+    objブック制御.openブック (strファイルパス)
     
     Dim ws転記元 As Worksheet
-    Set ws転記元 = wb転記元.Sheets(strシート名)
+    Set ws転記元 = objブック制御.wbブック.Sheets(strシート名)
 
     Dim lng最終行, lng最終列 As Long
     lng最終行 = 最終行取得(ws転記元)
@@ -112,7 +112,7 @@ Public Sub シート読込()
         varシート内容 = .Range(.Cells(1, 1), .Cells(lng最終行, lng最終列))
     End With
 
-    wb転記元.Close
+    objブック制御.closeブック
 
 End Sub
 
@@ -126,11 +126,11 @@ Public Function 転記元情報取得(str名前 As String) As Variant
     Dim i As Long
     
     For i = LBound(varシート内容) To UBound(varシート内容)
-    
+
         If str名前 = varシート内容(i, lng名前列) Then
         
             ReDim var転記元情報(IDX_COUNT)
-        
+            
             var転記元情報(IDX_ID) = varシート内容(i, lngID列)
             var転記元情報(IDX_名前) = varシート内容(i, lng名前列)
             var転記元情報(IDX_型) = varシート内容(i, lng型列)
