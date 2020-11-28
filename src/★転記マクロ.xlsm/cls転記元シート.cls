@@ -16,11 +16,8 @@ Option Explicit
 Private Const KEY_転記元情報 = "転記元情報"
 Private Const KEY_ファイルパス = "ファイルパス"
 Private Const KEY_シート名 = "シート名"
-Private Const KEY_ID列 = "ID列"
-Private Const KEY_名前列 = "名前列"
-Private Const KEY_型列 = "型列"
-Private Const KEY_整数桁列 = "整数桁列"
-Private Const KEY_小数桁列 = "小数桁列"
+Private Const KEY_列情報 = "列情報"
+Private Const KEY_キー列 = "キー列"
 
 ' *********************************************************************************************************************
 ' 変数
@@ -28,11 +25,7 @@ Private Const KEY_小数桁列 = "小数桁列"
 '
 Private strファイルパス As String
 Private strシート名 As String
-Private lngID列 As Long
-Private lng名前列 As Long
-Private lng型列 As Long
-Private lng整数桁列 As Long
-Private lng小数桁列 As Long
+Private dic列情報 As Object
 
 Private varシート内容 As Variant
 
@@ -40,33 +33,6 @@ Private varシート内容 As Variant
 ' 定数(Public) ※ クラス内では定数をPublicにできないため、Propertyを利用
 ' *********************************************************************************************************************
 '
-Private Const C_IDX_ID = 0
-Private Const C_IDX_名前 = 1
-Private Const C_IDX_型 = 2
-Private Const C_IDX_整数桁 = 3
-Private Const C_IDX_小数桁 = 4
-
-Private Const IDX_COUNT = 4
-
-Public Property Get IDX_ID() As Long
-    IDX_ID = C_IDX_ID
-End Property
-
-Public Property Get IDX_名前() As Long
-    IDX_名前 = C_IDX_名前
-End Property
-
-Public Property Get IDX_型() As Long
-    IDX_型 = C_IDX_型
-End Property
-
-Public Property Get IDX_整数桁() As Long
-    IDX_整数桁 = C_IDX_整数桁
-End Property
-
-Public Property Get IDX_小数桁() As Long
-    IDX_小数桁 = C_IDX_小数桁
-End Property
 
 ' *********************************************************************************************************************
 ' 機能：コンストラクタ ※ 引数は指定できない
@@ -82,14 +48,15 @@ End Sub
 '
 Public Function 初期化(obj設定値シート As cls設定値シート)
 
-    strファイルパス = obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_ファイルパス)
-    strシート名 = obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_シート名)
-    lngID列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_ID列))
-    lng名前列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_名前列))
-    lng型列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_型列))
-    lng整数桁列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_整数桁列))
-    lng小数桁列 = CAlp2Num(obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_小数桁列))
-    
+    strファイルパス = _
+        obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_ファイルパス)
+        
+    strシート名 = _
+        obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_シート名)
+
+    Set dic列情報 = _
+        obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_列情報)
+
 End Function
 
 ' *********************************************************************************************************************
@@ -117,32 +84,45 @@ Public Sub シート読込()
 End Sub
 
 ' *********************************************************************************************************************
-' 機能：
+' 機能：パラメータで指定された名前と一致する行の情報を Dictionary オブジェクトで返却する。
+'       形式は下記の通り。
+'
+'       Dictionary(
+'           (列名, 列の値),
+'           (列名, 列の値),
+'           ...
+'       )
 ' *********************************************************************************************************************
 '
-Public Function 転記元情報取得(str名前 As String) As Variant
+Public Function 転記元情報取得(str名前 As String) As Object
 
-    Dim var転記元情報 As Variant
-    Dim i As Long
+    Dim dic転記元行 As Object
+    Set dic転記元行 = Nothing
+    
+    Dim i, lngキー列 As Long
+    
+    lngキー列 = CAlp2Num(dic列情報.Item(KEY_キー列))
     
     For i = LBound(varシート内容) To UBound(varシート内容)
 
-        If str名前 = varシート内容(i, lng名前列) Then
+        If str名前 = varシート内容(i, lngキー列) Then
         
-            ReDim var転記元情報(IDX_COUNT)
+            Set dic転記元行 = CreateObject("Scripting.Dictionary")
             
-            var転記元情報(IDX_ID) = varシート内容(i, lngID列)
-            var転記元情報(IDX_名前) = varシート内容(i, lng名前列)
-            var転記元情報(IDX_型) = varシート内容(i, lng型列)
-            var転記元情報(IDX_整数桁) = varシート内容(i, lng整数桁列)
-            var転記元情報(IDX_小数桁) = varシート内容(i, lng小数桁列)
+            Dim txt列名 As Variant
             
-            転記元情報取得 = var転記元情報
+            For Each txt列名 In dic列情報
+            
+                Call dic転記元行.Add(txt列名, varシート内容(i, CAlp2Num(dic列情報(txt列名))))
+            
+            Next txt列名
+            
+            Set 転記元情報取得 = dic転記元行
             Exit Function
             
         End If
     Next
     
-    転記元情報取得 = var転記元情報
+    Set 転記元情報取得 = dic転記元行
     
 End Function

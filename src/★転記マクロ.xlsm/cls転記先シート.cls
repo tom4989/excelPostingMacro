@@ -13,17 +13,13 @@ Option Explicit
 ' ’è”
 ' *********************************************************************************************************************
 '
+Private Const KEY_ƒL[—ñ = "ƒL[—ñ"
 
 ' *********************************************************************************************************************
 ' •Ï”
 ' *********************************************************************************************************************
 '
-Private lngID—ñ As Long
-Private lng–¼‘O—ñFrom As Long
-Private lng–¼‘O—ñTo As Long
-Private lngŒ^—ñ As Long
-Private lng®”Œ…—ñ As Long
-Private lng¬”Œ…—ñ As Long
+Private dic—ñî•ñ As Object
 
 ' *********************************************************************************************************************
 ' ’è”(Public) ¦ ƒNƒ‰ƒX“à‚Å‚Í’è”‚ğPublic‚É‚Å‚«‚È‚¢‚½‚ßAProperty‚ğ—˜—p
@@ -56,17 +52,8 @@ Public Function ‰Šú‰»(objİ’è’lƒV[ƒg As clsİ’è’lƒV[ƒg, wb“]‹LæƒuƒbƒN As Wor
     
         If wb“]‹LæƒuƒbƒN.Name Like "*" & varBookName(i) & "*" Then
         
-            Dim var–¼‘O—ñ As Variant
-            var–¼‘O—ñ = CAlpxAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("–¼‘O—ñ"))
-        
-            lng–¼‘O—ñFrom = CLng(var–¼‘O—ñ(0))
-            lng–¼‘O—ñTo = CLng(var–¼‘O—ñ(1))
-            
-            lngID—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("ID—ñ"))
-            lngŒ^—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("Œ^—ñ"))
-            lng®”Œ…—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("®”Œ…—ñ"))
-            lng¬”Œ…—ñ = CAlp2Num(obj“]‹Læİ’è’l.Item(varBookName(i)).Item("¬”Œ…—ñ"))
-        
+            Set dic—ñî•ñ = obj“]‹Læİ’è’l.Item(varBookName(i))
+
             ‰Šú‰» = True
             Exit Function
         
@@ -101,6 +88,13 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
             If (selectionRange.Row <> lngˆ—Ï‚Ìs) Then
     
                 ' –¼‘O‚ğ“Á’è‚·‚é
+                Dim varƒL[—ñ As Variant
+                varƒL[—ñ = CAlpxAlp2Num(dic—ñî•ñ.Item(KEY_ƒL[—ñ))
+        
+                Dim lng–¼‘O—ñFrom, lng–¼‘O—ñTo As Long
+                lng–¼‘O—ñFrom = CLng(varƒL[—ñ(0))
+                lng–¼‘O—ñTo = CLng(varƒL[—ñ(1))
+
                 Dim str–¼‘O As String
                 str–¼‘O = ""
                 
@@ -114,26 +108,32 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
                     End If
                 Next
                 
-                ' “]‹LŒ³î•ñ‚Ìæ“¾
-                Dim var“]‹LŒ³î•ñ As Variant
-                var“]‹LŒ³î•ñ = obj“]‹LŒ³ƒV[ƒg.“]‹LŒ³î•ñæ“¾(str–¼‘O)
+                If str–¼‘O = "" Then
+                    
+                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, "ID‚ª–¢‹L“ü‚Å‚·B")
+                End If
                 
-                If IsArrayEx(var“]‹LŒ³î•ñ) <> 1 Then
+                ' “]‹LŒ³î•ñ‚Ìæ“¾
+                Dim dic“]‹LŒ³s As Object
+                Set dic“]‹LŒ³s = obj“]‹LŒ³ƒV[ƒg.“]‹LŒ³î•ñæ“¾(str–¼‘O)
+                
+                If dic“]‹LŒ³s Is Nothing Then
                 
                     Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, str–¼‘O & "F“]‹LŒ³‚É€–Ú‚ª‘¶İ‚µ‚Ü‚¹‚ñB")
-
                 Else
                 
-                If var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID) = "" Then
+                    Dim txt—ñ–¼ As Variant
+                
+                    For Each txt—ñ–¼ In dic“]‹LŒ³s
                     
-                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, str–¼‘O & "FID‚ª–¢‹L“ü‚Å‚·B")
+                        If txt—ñ–¼ <> KEY_ƒL[—ñ Then
+                        
+                            .Cells(selectionRange.Row, CAlp2Num(dic—ñî•ñ.Item(txt—ñ–¼))) = _
+                                dic“]‹LŒ³s.Item(txt—ñ–¼)
+                        
+                        End If
                     
-                End If
-            
-                    .Cells(selectionRange.Row, lngID—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_ID)
-                    .Cells(selectionRange.Row, lngŒ^—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_Œ^)
-                    .Cells(selectionRange.Row, lng®”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_®”Œ…)
-                    .Cells(selectionRange.Row, lng¬”Œ…—ñ) = var“]‹LŒ³î•ñ(obj“]‹LŒ³ƒV[ƒg.IDX_¬”Œ…)
+                    Next txt—ñ–¼
                 
                 End If
         
