@@ -98,7 +98,7 @@ End Function
 '
 Public Sub シート読込()
 
-    Dim objブック制御 As clsブック制御
+    Dim objブック制御 As New clsブック制御
     objブック制御.openブック (strファイルパス)
     
     Dim ws転記元 As Worksheet

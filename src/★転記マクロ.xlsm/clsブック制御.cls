@@ -38,7 +38,7 @@ End Property
 '
 Public Sub Class_Initialize()
 
-    wb対象のブック = Nothing
+    Set wb制御対象のブック = Nothing
 
 End Sub
 
@@ -65,10 +65,10 @@ Sub openブック(strファイルパス)
             
             Exit Sub
         End If
-    Next wb
+    Next wb処理中のブック
     
     Set wb制御対象のブック = Workbooks.Open(strファイルパス, UpdateLinks:=0, IgnoreReadOnlyRecommended:=False)
-    isブック開いてた = False
+    flgブック開いてた = False
 
 End Sub
 
@@ -78,10 +78,10 @@ End Sub
 '
 Sub closeブック()
 
-    If flgブック開いてた Then
+    If Not flgブック開いてた Then
         wb制御対象のブック.Close
     End If
     
-    wb制御対象のブック = Nothing
+    Set wb制御対象のブック = Nothing
     
 End Sub
