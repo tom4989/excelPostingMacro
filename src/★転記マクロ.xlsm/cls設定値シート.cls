@@ -23,6 +23,14 @@ Const cnstシート名 = "★設定値"
 Private dic設定値リスト As Object
 
 Public Property Get 設定値リスト() As Object
+
+    If dic設定値リスト Is Nothing Then
+    
+        Call MsgBox("cls設定値シート：設定値がロードされていません。", vbExclamation)
+        End
+    
+    End If
+    
     Set 設定値リスト = dic設定値リスト
 End Property
 
@@ -31,6 +39,14 @@ End Property
 ' *********************************************************************************************************************
 '
 Public Sub Class_Initialize()
+
+End Sub
+
+' *********************************************************************************************************************
+' 機能：指定されたシートの内容をロードし、Dictionaryオブジェクトに設定する。
+' *********************************************************************************************************************
+'
+Public Sub ロード(Optional txt設定値シート As String = cnstシート名)
 
     ' 辞書初期化
     Set dic設定値リスト = CreateObject("Scripting.Dictionary")
@@ -50,7 +66,7 @@ Public Sub Class_Initialize()
             lng最終列 = -1
 
             ' 要素数を数える
-            For j = LBound(varシートの値全体, 2) To UBound(varシートの値全体, 2)
+            For j = LBound(varシートの値全体, 2) + 1 To UBound(varシートの値全体, 2)
         
                 If varシートの値全体(i, j) <> "" Then
                 
@@ -68,7 +84,7 @@ Public Sub Class_Initialize()
             If lng開始列 < lng最終列 Then
         
                 ' 1行に記載された情報を解析する
-                For j = lng開始列 To lng最終列
+                For j = lng開始列 To lng最終列 - 1
         
                     Dim objDic As Object
         
@@ -80,7 +96,7 @@ Public Sub Class_Initialize()
                     End If
         
                     ' 処理中の列が、最後の列でない場合
-                    If j < lng最終列 Then
+                    If j < lng最終列 - 1 Then
                 
                         If objDic.Exists(varシートの値全体(i, j)) Then
                     
@@ -106,6 +122,5 @@ Public Sub Class_Initialize()
             End If
         End If
     Next i
-    
     
 End Sub
