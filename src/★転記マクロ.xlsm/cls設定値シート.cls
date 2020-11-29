@@ -20,10 +20,10 @@ Const cnstシート名 = "★設定値"
 ' 変数
 ' *********************************************************************************************************************
 '
-Private obj設定値リスト As Object
+Private dic設定値リスト As Object
 
 Public Property Get 設定値リスト() As Object
-    Set 設定値リスト = obj設定値リスト
+    Set 設定値リスト = dic設定値リスト
 End Property
 
 ' *********************************************************************************************************************
@@ -33,74 +33,79 @@ End Property
 Public Sub Class_Initialize()
 
     ' 辞書初期化
-    Set obj設定値リスト = CreateObject("Scripting.Dictionary")
+    Set dic設定値リスト = CreateObject("Scripting.Dictionary")
 
-    Dim lng最終行 As Long
-    lng最終行 = 最終行取得(ThisWorkbook.Sheets(cnstシート名))
-    
-    Dim lng最終列 As Long
-    lng最終列 = 最終行取得(ThisWorkbook.Sheets(cnstシート名))
-        
     Dim varシートの値全体 As Variant
+    varシートの値全体 = シート内容取得(ThisWorkbook.Sheets(cnstシート名))
     
-    With ThisWorkbook.Sheets(cnstシート名)
-
-        varシートの値全体 = .Range(.Cells(1, 1), .Cells(lng最終行, lng最終列))
-        
-    End With
-    
-    Dim i, j1, j2 As Long
+    Dim i As Long
     
     For i = LBound(varシートの値全体) To UBound(varシートの値全体)
-    
-        ' 要素数を数える
-        For j1 = LBound(varシートの値全体, 2) To UBound(varシートの値全体, 2)
+            
+        ' A列に★が設定されている行のみ対象
+        If varシートの値全体(i, 1) = "★" Then
         
-            If varシートの値全体(i, j1) = "" Then
-                Exit For
-            End If
-        Next
-    
-        ' 空行でない場合
-        If j1 > 1 Then
+            Dim j, lng開始列, lng最終列 As Long
+            lng開始列 = -1
+            lng最終列 = -1
+
+            ' 要素数を数える
+            For j = LBound(varシートの値全体, 2) To UBound(varシートの値全体, 2)
         
-            ' 1行に記載された情報を解析する
-            For j2 = LBound(varシートの値全体, 2) To UBound(varシートの値全体, 2)
-        
-                Dim objDic As Object
-        
-                ' 処理中の列が、最初の列の場合
-                If j2 = 1 Then
-                    
-                    Set objDic = obj設定値リスト
-                    
-                End If
-        
-                ' 処理中の列が、最後の列でない場合
-                If j2 < j1 - 2 Then
+                If varシートの値全体(i, j) <> "" Then
                 
-                    If objDic.Exists(varシートの値全体(i, j2)) Then
+                    If lng開始列 = -1 Then
                     
-                        Set objDic = objDic.Item(varシートの値全体(i, j2))
+                        lng開始列 = j
                     
-                    Else
-                        Dim objNewDic As Object
-                        Set objNewDic = CreateObject("Scripting.Dictionary")
-                        Call objDic.Add(varシートの値全体(i, j2), objNewDic)
-                        
-                        Set objDic = objNewDic
-
                     End If
-                    
-                ' 処理中の列が、最後の列の1つ前の場合
-                Else
-                    Call objDic.Add(varシートの値全体(i, j2), varシートの値全体(i, j2 + 1))
-                    
-                    Exit For
-                    
+                
+                    lng最終列 = j
                 End If
-            Next
-        End If
-    Next
+            Next j
+    
+            ' 設定値行が2階層以上設定されている場合
+            If lng開始列 < lng最終列 Then
+        
+                ' 1行に記載された情報を解析する
+                For j = lng開始列 To lng最終列
+        
+                    Dim objDic As Object
+        
+                    ' 処理中の列が、開始列の場合
+                    If j = lng開始列 Then
+                    
+                        Set objDic = dic設定値リスト
+                    
+                    End If
+        
+                    ' 処理中の列が、最後の列でない場合
+                    If j < lng最終列 Then
+                
+                        If objDic.Exists(varシートの値全体(i, j)) Then
+                    
+                            Set objDic = objDic.Item(varシートの値全体(i, j))
+                    
+                        Else
+                            Dim objNewDic As Object
+                            Set objNewDic = CreateObject("Scripting.Dictionary")
+                            Call objDic.Add(varシートの値全体(i, j), objNewDic)
+                        
+                            Set objDic = objNewDic
 
+                        End If
+                    
+                    ' 処理中の列が、最後の列の1つ前の場合
+                    Else
+                        Call objDic.Add(varシートの値全体(i, j), varシートの値全体(i, j + 1))
+                    
+                        Exit For
+                    
+                    End If
+                Next j
+            End If
+        End If
+    Next i
+    
+    
 End Sub

@@ -155,7 +155,7 @@ End Function
 ' * 機能　：引数で渡されたシートの最終行を取得する
 ' *********************************************************************************************************************
 '
-Function 最終行取得(targetSheet As Worksheet)
+Function 最終行取得(targetSheet As Worksheet) As Long
 
     With targetSheet
         最終行取得 = .Cells.Find("*", , xlFormulas, , xlByRows, xlPrevious).Row
@@ -168,12 +168,27 @@ End Function
 ' * 機能　：引数で渡されたシートの最終列を取得する
 ' *********************************************************************************************************************
 '
-Function 最終列取得(targetSheet As Worksheet)
+Function 最終列取得(targetSheet As Worksheet) As Long
 
     With targetSheet
             最終列取得 = .Cells.Find("*", , xlFormulas, , xlByColumns, xlPrevious).Column
     End With
         
+End Function
+
+' *********************************************************************************************************************
+' * 機能　：引数で渡されたシートの内容をVariant変数に変換して返す
+' *********************************************************************************************************************
+'
+Function シート内容取得(wsワークシート As Worksheet) As Variant
+
+    With wsワークシート
+
+        シート内容取得 = .Range( _
+            .Cells(1, 1), _
+            .Cells(最終行取得(wsワークシート), 最終列取得(wsワークシート)))
+    End With
+
 End Function
 
 
