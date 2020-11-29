@@ -95,31 +95,37 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
                 lng–¼‘O—ñFrom = CLng(varƒL[—ñ(0))
                 lng–¼‘O—ñTo = CLng(varƒL[—ñ(1))
 
-                Dim str–¼‘O As String
-                str–¼‘O = ""
+                Dim txt–¼‘O As String
+                txt–¼‘O = ""
                 
                 For i = lng–¼‘O—ñFrom To lng–¼‘O—ñTo
                 
                     If .Cells(selectionRange.Row, i).Value <> "" Then
                     
-                        str–¼‘O = .Cells(selectionRange.Row, i).Value
+                        txt–¼‘O = .Cells(selectionRange.Row, i).Value
                         Exit For
                     
                     End If
                 Next
                 
-                If str–¼‘O = "" Then
+                If txt–¼‘O = "" Then
                     
-                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, "ID‚ª–¢‹L“ü‚Å‚·B")
+                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, _
+                        selectionRange.Row & "s–Ú" & vbTab & _
+                        vbTab & _
+                        "ƒL[(" & dic—ñî•ñ.Item(KEY_ƒL[—ñ) & "—ñ)‚Ì’l‚ª–¢‹L“ü‚Å‚·B")
                 End If
                 
                 ' “]‹LŒ³î•ñ‚Ìæ“¾
                 Dim dic“]‹LŒ³s As Object
-                Set dic“]‹LŒ³s = obj“]‹LŒ³ƒV[ƒg.“]‹LŒ³î•ñæ“¾(str–¼‘O)
+                Set dic“]‹LŒ³s = obj“]‹LŒ³ƒV[ƒg.“]‹LŒ³î•ñæ“¾(txt–¼‘O)
                 
                 If dic“]‹LŒ³s Is Nothing Then
                 
-                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, str–¼‘O & "F“]‹LŒ³‚É€–Ú‚ª‘¶İ‚µ‚Ü‚¹‚ñB")
+                    Call ˆêŸ”z—ñ‚É’l‚ğ’Ç‰Á(varƒGƒ‰[ƒƒbƒZ[ƒW, _
+                        selectionRange.Row & "s–Ú" & vbTab & _
+                        txt–¼‘O & vbTab & _
+                        "“]‹LŒ³‚É€–Ú‚ª‘¶İ‚µ‚Ü‚¹‚ñB")
                 Else
                 
                     Dim txt—ñ–¼ As Variant
@@ -148,18 +154,18 @@ Public Function “]‹L(wb“]‹LæƒuƒbƒN As Workbook, obj“]‹LŒ³ƒV[ƒg As cls“]‹LŒ³ƒV
     ' ƒGƒ‰[ƒƒbƒZ[ƒW‚Ìo—Í
     If IsArrayEx(varƒGƒ‰[ƒƒbƒZ[ƒW) = 1 Then
     
-        Dim strƒGƒ‰[ƒƒbƒZ[ƒW As String
+        Dim txtƒGƒ‰[ƒƒbƒZ[ƒW As String
         
         For i = LBound(varƒGƒ‰[ƒƒbƒZ[ƒW) To UBound(varƒGƒ‰[ƒƒbƒZ[ƒW)
         
             If 0 < i Then
-                strƒGƒ‰[ƒƒbƒZ[ƒW = strƒGƒ‰[ƒƒbƒZ[ƒW & vbCrLf
+                txtƒGƒ‰[ƒƒbƒZ[ƒW = txtƒGƒ‰[ƒƒbƒZ[ƒW & vbCrLf
             End If
             
-            strƒGƒ‰[ƒƒbƒZ[ƒW = strƒGƒ‰[ƒƒbƒZ[ƒW & varƒGƒ‰[ƒƒbƒZ[ƒW(i)
+            txtƒGƒ‰[ƒƒbƒZ[ƒW = txtƒGƒ‰[ƒƒbƒZ[ƒW & varƒGƒ‰[ƒƒbƒZ[ƒW(i)
         Next
         
-        Call MsgBox(strƒGƒ‰[ƒƒbƒZ[ƒW, vbExclamation)
+        Call MsgBox(txtƒGƒ‰[ƒƒbƒZ[ƒW, vbExclamation)
     
     End If
 

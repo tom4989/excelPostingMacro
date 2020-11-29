@@ -46,19 +46,19 @@ End Sub
 ' 機能：ブックを開く。ブックが既に開いている場合、状態を記憶する。
 ' *********************************************************************************************************************
 '
-Sub openブック(strファイルパス)
+Sub openブック(txtファイルパス As String)
 
     Dim objFSO As Object
     Set objFSO = CreateObject("Scripting.FileSystemObject")
     
-    Dim strファイル名 As String
-    strファイル名 = objFSO.GetFileName(strファイルパス)
+    Dim txtファイル名 As String
+    txtファイル名 = objFSO.GetFileName(txtファイルパス)
     
     Dim wb処理中のブック As Workbook
     
     For Each wb処理中のブック In Workbooks
     
-        If wb処理中のブック.Name = strファイル名 Then
+        If wb処理中のブック.Name = txtファイル名 Then
         
             Set wb制御対象のブック = wb処理中のブック
             flgブック開いてた = True
@@ -67,7 +67,7 @@ Sub openブック(strファイルパス)
         End If
     Next wb処理中のブック
     
-    Set wb制御対象のブック = Workbooks.Open(strファイルパス, UpdateLinks:=0, IgnoreReadOnlyRecommended:=False)
+    Set wb制御対象のブック = Workbooks.Open(txtファイルパス, UpdateLinks:=0, IgnoreReadOnlyRecommended:=False)
     flgブック開いてた = False
 
 End Sub

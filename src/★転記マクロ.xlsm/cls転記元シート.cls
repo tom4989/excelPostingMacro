@@ -23,8 +23,8 @@ Private Const KEY_キー列 = "キー列"
 ' 変数
 ' *********************************************************************************************************************
 '
-Private strファイルパス As String
-Private strシート名 As String
+Private txtファイルパス As String
+Private txtシート名 As String
 Private dic列情報 As Object
 
 Private varシート内容 As Variant
@@ -48,10 +48,10 @@ End Sub
 '
 Public Function 初期化(obj設定値シート As cls設定値シート)
 
-    strファイルパス = _
+    txtファイルパス = _
         obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_ファイルパス)
         
-    strシート名 = _
+    txtシート名 = _
         obj設定値シート.設定値リスト.Item(KEY_転記元情報).Item(KEY_シート名)
 
     Set dic列情報 = _
@@ -66,10 +66,10 @@ End Function
 Public Sub シート読込()
 
     Dim objブック制御 As New clsブック制御
-    objブック制御.openブック (strファイルパス)
+    objブック制御.openブック (txtファイルパス)
     
     Dim ws転記元 As Worksheet
-    Set ws転記元 = objブック制御.wbブック.Sheets(strシート名)
+    Set ws転記元 = objブック制御.wbブック.Sheets(txtシート名)
 
     Dim lng最終行, lng最終列 As Long
     lng最終行 = 最終行取得(ws転記元)
@@ -94,7 +94,7 @@ End Sub
 '       )
 ' *********************************************************************************************************************
 '
-Public Function 転記元情報取得(str名前 As String) As Object
+Public Function 転記元情報取得(txt名前 As String) As Object
 
     Dim dic転記元行 As Object
     Set dic転記元行 = Nothing
@@ -105,7 +105,7 @@ Public Function 転記元情報取得(str名前 As String) As Object
     
     For i = LBound(varシート内容) To UBound(varシート内容)
 
-        If str名前 = varシート内容(i, lngキー列) Then
+        If txt名前 = varシート内容(i, lngキー列) Then
         
             Set dic転記元行 = CreateObject("Scripting.Dictionary")
             
